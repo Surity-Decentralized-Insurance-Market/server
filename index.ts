@@ -13,6 +13,11 @@ app.use(cors({}));
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.use("*", (req, res, next) => {
+  console.log(req.baseUrl);
+  next();
+});
+
 app.use("/", indexRouter);
 
 async function main() {
