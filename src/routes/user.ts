@@ -38,8 +38,15 @@ router.post("/verify", async (req, res) => {
 
 router.post("/become-marketer", verifiedOnly, async (req, res) => {
   const { name, imageUrl } = req.body;
+
+  if (!req.user) return res.sendStatus(401);
+  const user = await User.findOne({ address: req.user.address });
+  if (!user) return res.sendStatus(401);
+
   const newMarketer = await Marketer.create({ name: name, imageUrl: imageUrl });
   await newMarketer.save();
+
+  user.updateOne({ marketer: newMarketer.id });
 
   return res.status(200).send({ marketer: newMarketer });
 });

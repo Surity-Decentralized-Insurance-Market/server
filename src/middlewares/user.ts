@@ -6,7 +6,6 @@ export const verifiedOnly: RequestHandler = async (req, res, next) => {
 
   const user = await User.findOne({ address: address });
   if (user) {
-    // @ts-ignore
     req.user = user;
     next();
   } else {
