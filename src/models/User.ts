@@ -1,15 +1,9 @@
 import { Schema, model } from "mongoose";
+import { User } from "../types/custom";
 
-interface IUser {
-  address: string;
-  verified: boolean;
-  isMarketer: boolean;
-}
-
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<User>({
   address: { type: String },
-  verified: { type: Boolean, default: false },
-  isMarketer: { type: Boolean, default: false },
+  marketer: { type: String },
 });
 
-export default model<IUser>("User", userSchema);
+export default model<User>("User", userSchema);
