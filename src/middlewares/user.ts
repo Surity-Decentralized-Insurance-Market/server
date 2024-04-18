@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import User from "../models/User";
+import User from "../models/Consumer";
 
 export const verifiedOnly: RequestHandler = async (req, res, next) => {
   const address = req.headers.authorization;

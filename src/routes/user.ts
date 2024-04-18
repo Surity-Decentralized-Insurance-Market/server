@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/User";
+import User from "../models/Consumer";
 import { generateRandomHex, verifyMessage } from "../utils";
 import { verifiedOnly } from "../middlewares/user";
 import Marketer from "../models/Marketer";

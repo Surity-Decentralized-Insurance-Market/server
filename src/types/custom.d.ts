@@ -1,6 +1,6 @@
 import "node";
 
-interface User {
+interface Consumer {
   address: string;
   marketer?: string;
 }
