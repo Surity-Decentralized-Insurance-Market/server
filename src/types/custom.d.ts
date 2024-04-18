@@ -1,12 +1,13 @@
 import "node";
 
-interface Consumer {
+interface User {
   address: string;
   marketer?: string;
 }
 
 interface Marketer {
   name: string;
+  address: string;
   image: string;
   policies: string[];
 }

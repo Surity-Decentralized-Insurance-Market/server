@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/Consumer";
+import User from "../models/User";
 import { generateRandomHex, verifyMessage } from "../utils";
 import { verifiedOnly } from "../middlewares/user";
 import Marketer from "../models/Marketer";
@@ -14,7 +14,7 @@ router.get("/check/:address", async (req, res) => {
 });
 
 router.get("/get/:address", async (req, res) => {
-  const user = await User.find({ address: req.params.address });
+  const user = await User.findOne({ address: req.params.address });
   res.send({ user: user });
 });
 
@@ -37,16 +37,30 @@ router.post("/verify", async (req, res) => {
 });
 
 router.post("/become-marketer", verifiedOnly, async (req, res) => {
-  const { name, imageUrl } = req.body;
+  const { name, imageUrl, signed } = req.body;
 
+  const address = verifyMessage(JSON.stringify({ name, imageUrl }), signed);
+
+  // if (address != req.user.address) return res.sendStatus(401);
   if (!req.user) return res.sendStatus(401);
   const user = await User.findOne({ address: req.user.address });
   if (!user) return res.sendStatus(401);
 
-  const newMarketer = await Marketer.create({ name: name, imageUrl: imageUrl });
+  const newMarketer = await Marketer.create({
+    name: name,
+    imageUrl: imageUrl,
+    address: req.user.address,
+  });
   await newMarketer.save();
 
-  user.updateOne({ marketer: newMarketer.id });
+  await (
+    await User.findOneAndUpdate(
+      {
+        address: req.user.address,
+      },
+      { marketer: newMarketer._id }
+    )
+  )?.save();
 
   return res.status(200).send({ marketer: newMarketer });
 });
