@@ -2,6 +2,9 @@ import { hexStr2byteArray } from "./bytes";
 import { getBase58CheckAddress } from "./crypto";
 import { recoverAddress, hashMessage } from "./ethersUtils";
 
+//@ts-ignore
+import TronWeb from "tronweb";
+
 export const ADDRESS_SIZE = 34;
 export const ADDRESS_PREFIX = "41";
 export const ADDRESS_PREFIX_BYTE = 0x41;
@@ -21,4 +24,8 @@ export function verifyMessage(message: string, signature: string) {
   );
 
   return base58Address;
+}
+
+export function verifyMessageV2(message: string, signature: string): string {
+  return TronWeb.Trx.verifyMessageV2(message, signature);
 }

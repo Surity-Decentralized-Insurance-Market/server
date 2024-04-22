@@ -1,6 +1,6 @@
 import express from "express";
 import User from "../models/User";
-import { generateRandomHex, verifyMessage } from "../utils";
+import { generateRandomHex, verifyMessageV2 } from "../utils";
 import { verifiedOnly } from "../middlewares/user";
 import Marketer from "../models/Marketer";
 
@@ -28,20 +28,23 @@ router.post("/verify", async (req, res) => {
   const signed = req.body.signedNonce;
   const expectedSigner = req.body.address;
 
-  const address = verifyMessage(nonceStore[expectedSigner], signed);
+  const address = verifyMessageV2(nonceStore[expectedSigner], signed);
+
+  if (address != expectedSigner) return res.sendStatus(401);
 
   const user = await User.create({ address: expectedSigner });
   await user.save();
 
-  res.status(200).send({ user: user });
+  res.status(200).send({ user: null });
 });
 
 router.post("/become-marketer", verifiedOnly, async (req, res) => {
   const { name, imageUrl, signed } = req.body;
 
-  const address = verifyMessage(JSON.stringify({ name, imageUrl }), signed);
+  const address = verifyMessageV2(JSON.stringify({ name, imageUrl }), signed);
 
-  // if (address != req.user.address) return res.sendStatus(401);
+  if (address != req.user.address) return res.sendStatus(401);
+
   if (!req.user) return res.sendStatus(401);
   const user = await User.findOne({ address: req.user.address });
   if (!user) return res.sendStatus(401);
