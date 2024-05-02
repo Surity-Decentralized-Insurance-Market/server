@@ -8,20 +8,20 @@ const router = express.Router();
 
 router.get("/check/:address", async (req, res) => {
   const user = await User.exists({ address: req.params.address });
-  res.send({
+  res.status(200).send({
     exists: user ? true : false,
   });
 });
 
 router.get("/get/:address", async (req, res) => {
   const user = await User.findOne({ address: req.params.address });
-  res.send({ user: user });
+  res.status(200).send({ user: user });
 });
 
 const nonceStore: Record<string, string> = {};
 router.post("/request-nonce", async (req, res) => {
   nonceStore[req.body.address] = generateRandomHex(32);
-  res.send({ nonce: nonceStore[req.body.address] });
+  res.status(200).send({ nonce: nonceStore[req.body.address] });
 });
 
 router.post("/verify", async (req, res) => {

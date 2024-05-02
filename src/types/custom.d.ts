@@ -13,6 +13,7 @@ interface Marketer {
 }
 
 interface Policy {
+  address: string;
   name: string;
   description: string;
   category: string;
