@@ -1,11 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Policy } from "../types/custom";
 
-const functionArgsSchema = new Schema({
-  type: [{ name: String, description: String, htmlType: String }],
-  default: [],
-});
-
 const policySchema = new Schema<Policy>({
   address: { type: String },
   name: { type: String },
@@ -16,12 +11,12 @@ const policySchema = new Schema<Policy>({
   claimValidationFunction: {
     function: String,
     description: String,
-    arguments: functionArgsSchema,
+    arguments: [{ name: String, description: String, htmlType: String }],
   },
   premiumCalculationFunction: {
     function: String,
     description: String,
-    arguments: functionArgsSchema,
+    arguments: [{ name: String, description: String, htmlType: String }],
   },
   intialStake: { type: Number },
   tags: [String],
