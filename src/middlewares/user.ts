@@ -9,6 +9,7 @@ export const verifiedOnly: RequestHandler = async (req, res, next) => {
     req.user = user;
     next();
   } else {
+    console.log("Suspected Malicious Request : " + address);
     return res.sendStatus(401);
   }
 };

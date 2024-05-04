@@ -37,6 +37,7 @@ router.post("/new", verifiedOnly, async (req, res) => {
     tags: req.body.tags,
     intialStake: req.body.intialStake,
   });
+
   await newPolicy.save();
 
   res
