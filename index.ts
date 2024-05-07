@@ -5,8 +5,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import indexRouter from "./src/routes/_index";
 
-import serverless from "serverless-http";
-
 const PORT = Number(process.env.PORT) || 9000;
 
 const app = express();
@@ -20,17 +18,14 @@ app.use("*", (req, res, next) => {
   next();
 });
 
-app.use("/.netlify/functions/api", indexRouter);
+app.use("/", indexRouter);
 
-// async function main() {
-//   await
-//   app.listen(PORT, () => {
-//     console.log(`server listening on port ${PORT}`);
-//   });
-// }
-// main();
+async function main() {
+  if (!process.env.MONGODB_URI) throw new Error("Connection URI missing");
+  await mongoose.connect(process.env.MONGODB_URI);
+  app.listen(PORT, () => {
+    console.log(`server listening on port ${PORT}`);
+  });
+}
 
-if (!process.env.MONGODB_URI) throw new Error("Connection URI missing");
-mongoose.connect(process.env.MONGODB_URI);
-
-export const handler = serverless(app);
+main();
