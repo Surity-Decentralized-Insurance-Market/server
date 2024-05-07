@@ -22,14 +22,15 @@ app.use("*", (req, res, next) => {
 
 app.use("/.netlify/functions/api", indexRouter);
 
-async function main() {
-  if (!process.env.MONGODB_URI) throw new Error("Connection URI missing");
-  await mongoose.connect(process.env.MONGODB_URI);
-  app.listen(PORT, () => {
-    console.log(`server listening on port ${PORT}`);
-  });
-}
+// async function main() {
+//   await
+//   app.listen(PORT, () => {
+//     console.log(`server listening on port ${PORT}`);
+//   });
+// }
+// main();
 
-main();
+if (!process.env.MONGODB_URI) throw new Error("Connection URI missing");
+mongoose.connect(process.env.MONGODB_URI);
 
 export const handler = serverless(app);
