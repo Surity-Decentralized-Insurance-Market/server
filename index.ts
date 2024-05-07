@@ -20,7 +20,7 @@ app.use("*", (req, res, next) => {
   next();
 });
 
-app.use("/.netlify/functions/", indexRouter);
+app.use("/.netlify/functions/api", indexRouter);
 
 async function main() {
   if (!process.env.MONGODB_URI) throw new Error("Connection URI missing");
