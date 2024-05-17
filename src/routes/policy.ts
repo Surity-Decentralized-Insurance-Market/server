@@ -16,6 +16,7 @@ router.post("/new", verifiedOnly, async (req, res) => {
     name: req.body.name,
     description: req.body.description,
     category: req.body.category,
+    owner: req.user.address,
     claimLimits: {
       minimum: req.body.minimumClaim,
       maximum: req.body.maximumClaim,

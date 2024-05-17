@@ -3,6 +3,7 @@ import { Policy } from "../types/custom";
 
 const policySchema = new Schema<Policy>({
   address: { type: String, unique: true },
+  owner: { type: String },
   name: { type: String },
   description: { type: String },
   category: { type: String },

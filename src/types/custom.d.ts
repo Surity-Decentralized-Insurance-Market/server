@@ -15,6 +15,7 @@ interface Marketer {
 interface Policy {
   address: string;
   name: string;
+  owner: string;
   description: string;
   category: string;
   claimLimits: { minimum: number; maximum: number };
