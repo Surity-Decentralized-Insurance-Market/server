@@ -58,4 +58,10 @@ router.get("/get/:address", async (req, res) => {
   return res.status(200).send({ policy });
 });
 
+router.get("/fetch-all", async (req, res) => {
+  const policies = await Policy.find();
+
+  return res.status(200).send({ policies: policies });
+});
+
 export default router;
