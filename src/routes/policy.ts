@@ -41,8 +41,9 @@ router.post("/new", verifiedOnly, async (req, res) => {
 
   await newPolicy.save();
 
-  marketer.policies.push(newPolicy.id);
-  marketer.save();
+  await Marketer.findByIdAndUpdate(marketer.id, {
+    $push: { policies: newPolicy.id },
+  });
 
   res
     .status(200)
