@@ -45,4 +45,12 @@ router.post("/new", verifiedOnly, async (req, res) => {
     .send({ message: "Policy created successfully", Policy: newPolicy });
 });
 
+router.get("/get/:address", async (req, res) => {
+  const { address } = req.params;
+
+  const policy = await Policy.findOne({ address: address });
+
+  return res.status(200).send({ policy });
+});
+
 export default router;

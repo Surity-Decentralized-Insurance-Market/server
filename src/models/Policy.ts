@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { Policy } from "../types/custom";
 
 const policySchema = new Schema<Policy>({
-  address: { type: String },
+  address: { type: String, unique: true },
   name: { type: String },
   description: { type: String },
   category: { type: String },
