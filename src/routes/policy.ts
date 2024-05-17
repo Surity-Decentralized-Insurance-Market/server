@@ -8,7 +8,7 @@ router.post("/new", verifiedOnly, async (req, res) => {
   if (!req.user) return res.sendStatus(401);
   if (!req.user.marketer) return res.sendStatus(403);
 
-  const marketer = Marketer.findById(req.user.marketer);
+  const marketer = await Marketer.findById(req.user.marketer);
   if (!marketer) return res.sendStatus(403);
 
   const newPolicy = await Policy.create({
@@ -40,6 +40,9 @@ router.post("/new", verifiedOnly, async (req, res) => {
   });
 
   await newPolicy.save();
+
+  marketer.policies.push(newPolicy.id);
+  marketer.save();
 
   res
     .status(200)
