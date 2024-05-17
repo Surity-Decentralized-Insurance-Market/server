@@ -2,10 +2,12 @@ import express from "express";
 import exampleRouter from "./example";
 import userRouter from "./user";
 import policyRouter from "./policy";
+import marketerRouter from "./marketer";
 const router = express.Router();
 
 router.use("/example", exampleRouter);
 router.use("/user", userRouter);
+router.use("/marketer", marketerRouter);
 router.use("/policy", policyRouter);
 
 // @ts-ignore
