@@ -24,14 +24,26 @@ async function acquireLock() {
   return releaseLock!;
 }
 
-router.post("/premium/:address", async (req, res) => {
+router.post("/:address", async (req, res) => {
   const releaseLock = await acquireLock();
+
+  const { type } = req.query;
+
+  if (!(type == "claim" || type == "premium")) {
+    return res.sendStatus(400);
+  }
 
   try {
     const policy = await Policy.findOne({ address: req.params.address });
-    if (!policy?.premiumCalculationFunction) return res.sendStatus(404);
 
-    let focus_function = policy.premiumCalculationFunction.function;
+    const functionToBeExecuted =
+      type == "claim"
+        ? policy?.claimValidationFunction
+        : policy?.premiumCalculationFunction;
+
+    if (!functionToBeExecuted) return res.sendStatus(404);
+
+    let focus_function = functionToBeExecuted.function;
     const ff_lines = focus_function.split("\n");
     ff_lines[0] = ff_lines[0].replace(/\([^)]*\)/g, "()");
 

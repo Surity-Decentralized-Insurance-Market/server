@@ -58,7 +58,7 @@ router.post("/become-marketer", verifiedOnly, async (req, res) => {
 
   const newMarketer = await Marketer.create({
     name: name,
-    imageUrl: imageUrl,
+    image: imageUrl,
     address: req.user.address,
   });
   await newMarketer.save();
