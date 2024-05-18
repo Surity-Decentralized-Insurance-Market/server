@@ -26,12 +26,12 @@ router.post("/new", verifiedOnly, async (req, res) => {
       maximum: req.body.maximumDuration,
     },
     claimValidationFunction: {
-      function: req.body.claimFunction,
+      function: req.body.claimFunction.trim(),
       description: req.body.claimFuncDescription,
       arguments: req.body.claimFunctionArguments,
     },
     premiumCalculationFunction: {
-      function: req.body.premiumFunction,
+      function: req.body.premiumFunction.trim(),
       description: req.body.premiumFuncDescription,
       arguments: req.body.premiumFunctionArguments,
     },
